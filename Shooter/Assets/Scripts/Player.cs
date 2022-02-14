@@ -31,7 +31,9 @@ public class Player : MonoBehaviour
     private Rigidbody2D r2;
     private AudioSource m_AudioSource;
     private bool CanShoot=true;
-    private float lastShootTime;
+    private float lastShootTime ;
+
+    private float shootDelay = 0.2f;
 
     public static bool GameIsPaused = false;
     public GameObject pauseMenuUI;
@@ -64,7 +66,6 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if(GameIsPaused)
@@ -84,9 +85,9 @@ public class Player : MonoBehaviour
         }
 
 
-        if (Input.GetButtonDown("Fire1") && CanShoot)
+        if (Input.GetKey(KeyCode.Space) && CanShoot && Time.time >= lastShootTime + shootDelay)
         {
-            lastShootTime = Time.deltaTime;
+            lastShootTime = Time.time;
             switch (Weapon)
             {
                 case 1:
@@ -131,7 +132,9 @@ public class Player : MonoBehaviour
         if(collision.gameObject.tag == "Enemy_Projectile" && GameManager.Instance.PlayerLife > 0)
         {
             GameManager.Instance.PlayerLife--;
-            StartCoroutine(Flash());
+            if(GameManager.Instance.PlayerLife >= 1)
+                StartCoroutine(Flash());
+
         }
         if(collision.gameObject.tag == "Item")
         {
