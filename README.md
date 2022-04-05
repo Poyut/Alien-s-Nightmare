@@ -1,2 +1,2 @@
 # shoot-em-up-Game
-Jeu créé sur Unity pendant les vacances de Noël 2020
+2D shoot'em up game
